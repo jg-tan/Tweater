@@ -18,5 +18,11 @@ data class Tweet(
     val timestamp: Long,
 
     @ColumnInfo(name = "tweet_user_id")
-    val user_id: Int = 0
+    val user_id: Int = 0,
+
+    @ColumnInfo(name = "tweet_user_username")
+    val user_username: String,
+
+    @ColumnInfo(name = "tweet_user_handle")
+    val user_handle: String,
 )

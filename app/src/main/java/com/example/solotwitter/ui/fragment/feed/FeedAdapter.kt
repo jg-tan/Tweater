@@ -41,6 +41,7 @@ class FeedViewHolder(val binding: ListTweetBinding) : ViewHolder(binding.root) {
     fun bind(tweet: Tweet) {
         binding.apply {
             val sdf = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
+            tvUserName.text = tweet.user_username + " @" + tweet.user_handle
             tvTimestamp.text = sdf.format(tweet.timestamp)
             tvTweetContent.text = tweet.content
         }

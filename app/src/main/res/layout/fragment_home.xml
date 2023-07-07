@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.solotwitter.ui.fragment.home.HomeFragmentViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
@@ -18,16 +25,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="35dp"
-                android:layout_marginTop="35dp">
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="35dp">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tv_app_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tweater!"
@@ -38,69 +47,68 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName"
+                    android:id="@+id/et_login_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:ems="10"
                     android:inputType="textPersonName"
+                    android:text="@={viewModel.username}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_login_username_label" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/tv_login_username_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="24dp"
                     android:text="Username"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_app_title" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_login_password_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:text="Password"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+                    app:layout_constraintTop_toBottomOf="@+id/et_login_username" />
 
                 <EditText
-                    android:id="@+id/editTextTextPassword2"
+                    android:id="@+id/et_login_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
                     android:ems="10"
                     android:inputType="textPassword"
+                    android:text="@={viewModel.password}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_login_password_label" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btn_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
+                    android:onClick="@{()->viewModel.login()}"
                     android:text="Login"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2"
+                    app:layout_constraintTop_toBottomOf="@+id/et_login_password"
                     app:layout_constraintVertical_bias="0.173" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btn_go_to_signup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="20dp"
                     android:text="Signup"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2"
+                    app:layout_constraintTop_toBottomOf="@+id/et_login_password"
                     app:layout_constraintVertical_bias="0.195" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

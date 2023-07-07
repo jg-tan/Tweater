@@ -13,6 +13,9 @@ data class User(
     @ColumnInfo(name = "user_user_name")
     val userName: String,
 
+    @ColumnInfo(name = "user_handle")
+    val handle: String,
+
     @ColumnInfo(name = "user_password")
     val password: String
 )

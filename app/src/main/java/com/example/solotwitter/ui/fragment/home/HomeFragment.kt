@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.example.solotwitter.R
 import com.example.solotwitter.databinding.FragmentHomeBinding
-import com.example.solotwitter.db.user.UserDatabase
-import com.example.solotwitter.db.user.UserRepository
+import com.example.solotwitter.db.RepositoryProvider
 
 class HomeFragment : Fragment() {
     private lateinit var binding : FragmentHomeBinding
@@ -20,16 +20,33 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        val dao = UserDatabase.getInstance(activity!!.applicationContext).userDAO
-        val repository = UserRepository(dao)
-        val factory = HomeFragmentViewModelFactory(repository)
-
+        val factory = HomeFragmentViewModelFactory(RepositoryProvider.userRepository)
         viewModel = ViewModelProvider(this, factory)[HomeFragmentViewModel::class.java]
 
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        binding.btnGoToSignup.setOnClickListener {
+            navToSignup(it)
+        }
+
+        setEvents()
+
         return binding.root
+    }
+
+    private fun setEvents() {
+        viewModel.navigateToFeed.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                binding.root.findNavController().navigate(R.id.action_homeFragment_to_feedFragment)
+            }
+        }
+    }
+
+    fun navToSignup(view: View) {
+        view.findNavController().navigate(R.id.action_homeFragment_to_signupFragment)
     }
 
 }
