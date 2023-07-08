@@ -1,4 +1,4 @@
-package com.example.solotwitter.ui.fragment.feed
+package com.example.solotwitter.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,11 +8,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.solotwitter.R
 import com.example.solotwitter.databinding.ListTweetBinding
 import com.example.solotwitter.db.tweet.Tweet
-import java.sql.Date
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class FeedAdapter : RecyclerView.Adapter<FeedViewHolder>() {
     private var tweetList: List<Tweet> = ArrayList<Tweet>()
@@ -32,7 +29,7 @@ class FeedAdapter : RecyclerView.Adapter<FeedViewHolder>() {
         return tweetList.size
     }
 
-    fun setTweetList(tweets : List<Tweet>) {
+    fun setTweetList(tweets: List<Tweet>) {
         tweetList = tweets
     }
 }

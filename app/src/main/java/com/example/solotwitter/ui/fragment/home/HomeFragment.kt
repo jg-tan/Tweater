@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     HomeFragmentEvents.NAVIGATE_TO_FEED -> binding.root.findNavController()
-                        .navigate(R.id.action_signupFragment_to_feedFragment)
+                        .navigate(R.id.action_homeFragment_to_feedFragment)
                     HomeFragmentEvents.NAVIGATE_TO_SIGNUP -> binding.root.findNavController()
                         .navigate(R.id.action_homeFragment_to_signupFragment)
                 }
