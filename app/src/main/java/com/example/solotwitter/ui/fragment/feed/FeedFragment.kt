@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solotwitter.R
 import com.example.solotwitter.databinding.FragmentFeedBinding
 import com.example.solotwitter.db.RepositoryProvider
+import com.example.solotwitter.ui.adapters.FeedAdapter
 
 class FeedFragment : Fragment() {
     private lateinit var binding: FragmentFeedBinding
@@ -24,15 +25,11 @@ class FeedFragment : Fragment() {
     ): View? {
         Log.i("MyTag", "feed fragment")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_feed, container, false)
-
-        initViewModel()
-        binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.setUser()
-        viewModel.fetchTweets()
-
+        initViewModel()
         initRecyclerView()
+
         return binding.root
     }
 
@@ -42,6 +39,9 @@ class FeedFragment : Fragment() {
             RepositoryProvider.userRepository
         )
         viewModel = ViewModelProvider(this, factory)[FeedFragmentViewModel::class.java]
+        binding.viewModel = viewModel
+        viewModel.setUser()
+        viewModel.fetchTweets()
     }
 
     private fun initRecyclerView() {
@@ -54,9 +54,8 @@ class FeedFragment : Fragment() {
     }
 
     private fun displayTweetList() {
-        viewModel.tweets?.observe(this) {
-            Log.i("MyTag", it.toString())
-            feedAdapter.setTweetList(it)
+        viewModel.tweets?.observe(this) { tweetList ->
+            feedAdapter.setTweetList(tweetList)
             feedAdapter.notifyDataSetChanged()
         }
     }
