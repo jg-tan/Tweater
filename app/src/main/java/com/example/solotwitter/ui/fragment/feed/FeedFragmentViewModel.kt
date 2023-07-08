@@ -1,6 +1,5 @@
 package com.example.solotwitter.ui.fragment.feed
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,17 +21,17 @@ class FeedFragmentViewModel(
 
     fun setUser() {
         user = userRepository.currentUser
-        currentUsernameHandle.value = user.userName + "@" + user.handle
+        currentUsernameHandle.value = user!!.userName + "@" + user!!.handle
     }
 
     fun fetchTweets() {
-        tweets = tweetRepository.getTweetsExceptUser(user.id)
+        tweets = tweetRepository.getTweetsExceptUser(user!!.id)
     }
 
     fun postTweet() {
         val timestamp = System.currentTimeMillis()
         val content = tweetContent.value!!
-        insertTweet(Tweet(0, content, timestamp, user.id, user.userName, user.handle))
+        insertTweet(Tweet(0, content, timestamp, user!!.id, user!!.userName, user!!.handle))
         tweetContent.value = ""
     }
 

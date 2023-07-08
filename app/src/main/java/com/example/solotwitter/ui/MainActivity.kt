@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i("MyTag", "main act")
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }

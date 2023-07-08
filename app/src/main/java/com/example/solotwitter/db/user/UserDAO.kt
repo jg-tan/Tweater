@@ -13,5 +13,5 @@ interface UserDAO {
     suspend fun getUser(userName: String, handle: String): User
 
     @Query("SELECT * FROM user_data_table WHERE user_user_name == :userName AND user_password == :password")
-    suspend fun loginUser(userName: String, password: String): User
+    suspend fun loginUser(userName: String, password: String): User?
 }
