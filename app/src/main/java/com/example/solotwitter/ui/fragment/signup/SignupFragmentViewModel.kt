@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.solotwitter.AppSharedPref
 import com.example.solotwitter.Event
 import com.example.solotwitter.db.user.User
 import com.example.solotwitter.db.user.UserRepository
@@ -77,8 +78,10 @@ class SignupFragmentViewModel(private val repository: UserRepository) : ViewMode
         }
 
         repository.createUser(User(0, inputUsername, inputHandle, inputPassword))
-
-        sendToastMessage("User created successfully! Welcome to Tweater ${repository.currentUser?.userName}!")
+        repository.currentUser?.let { user ->
+            AppSharedPref.setLoggedInUserId(user.id)
+            sendToastMessage("User created successfully! Welcome to Tweater ${user.userName}!")
+        }
 
         withContext(Dispatchers.Main) {
             _eventHandler.value = Event(SignupFragmentEvents.NAVIGATE_TO_FEED)

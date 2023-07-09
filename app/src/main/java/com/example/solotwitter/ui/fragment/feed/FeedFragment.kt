@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solotwitter.R
 import com.example.solotwitter.databinding.FragmentFeedBinding
@@ -51,6 +52,16 @@ class FeedFragment : Fragment() {
             layoutManager = LinearLayoutManager(this@FeedFragment.context)
         }
         displayTweetList()
+    }
+
+    private fun setObservables() {
+        viewModel.eventHandler.observe(this) {
+            it.getContentIfNotHandled()?.let { event ->
+                when (event) {
+                    FeedFragmentEvents.NAVIGATE_TO_PROFILE -> findNavController().navigate(R.id.action_feedFragment_to_profileFragment)
+                }
+            }
+        }
     }
 
     private fun displayTweetList() {

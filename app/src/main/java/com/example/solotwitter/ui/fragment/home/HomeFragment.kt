@@ -22,14 +22,18 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding.lifecycleOwner = this
 
+
+        initViewModel()
+        setObservables()
+        return binding.root
+    }
+
+    private fun initViewModel() {
         val factory = HomeFragmentViewModelFactory(RepositoryProvider.userRepository)
         viewModel = ViewModelProvider(this, factory)[HomeFragmentViewModel::class.java]
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
-        setObservables()
-        return binding.root
     }
 
     private fun setObservables() {
