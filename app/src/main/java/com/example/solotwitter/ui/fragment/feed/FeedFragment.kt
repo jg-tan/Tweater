@@ -30,6 +30,7 @@ class FeedFragment : Fragment() {
 
         initViewModel()
         initRecyclerView()
+        setObservables()
 
         return binding.root
     }
@@ -71,5 +72,5 @@ class FeedFragment : Fragment() {
         }
     }
 
-
+    
 }

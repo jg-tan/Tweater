@@ -52,5 +52,6 @@ class FeedFragmentViewModel(
 
     fun onUserUsernameClicked() {
         Log.i("MyTag", "@FeedFragmentViewModel : onUserUsernameClicked()")
+        _eventHandler.value = Event(FeedFragmentEvents.NAVIGATE_TO_PROFILE)
     }
 }
