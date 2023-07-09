@@ -18,6 +18,7 @@ class ProfileFragmentViewModel(
 ) : ViewModel() {
     var tweets = tweetRepository.tweets
     var user = userRepository.currentUser
+    var selectedUser = userRepository.selectedUser
 
     val currentUserUsername = MutableLiveData<String>()
     val currentUserHandle = MutableLiveData<String>()
@@ -27,13 +28,23 @@ class ProfileFragmentViewModel(
         get() = _eventHandler
 
     fun setUser() {
-        user = userRepository.currentUser
-        currentUserUsername.value = user!!.userName
-        currentUserHandle.value = user!!.handle
+        if (selectedUser != null) {
+            currentUserUsername.value = selectedUser!!.userName
+            currentUserHandle.value = selectedUser!!.handle
+        } else {
+            user = userRepository.currentUser
+            currentUserUsername.value = user!!.userName
+            currentUserHandle.value = user!!.handle
+        }
+
     }
 
     fun fetchTweets() {
-        tweets = tweetRepository.getTweetsFromUser(user!!.id)
+        if (selectedUser != null) {
+            tweets = tweetRepository.getTweetsFromUser(selectedUser!!.id)
+        } else {
+            tweets = tweetRepository.getTweetsFromUser(user!!.id)
+        }
     }
 
     fun onLogoutClicked() {

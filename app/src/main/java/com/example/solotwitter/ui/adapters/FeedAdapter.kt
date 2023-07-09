@@ -11,7 +11,8 @@ import com.example.solotwitter.db.tweet.Tweet
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FeedAdapter : RecyclerView.Adapter<FeedViewHolder>() {
+class FeedAdapter(private val onUsernameClickedListener: ((Int) -> Unit)? = null) :
+    RecyclerView.Adapter<FeedViewHolder>() {
     private var tweetList: List<Tweet> = ArrayList<Tweet>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
@@ -22,7 +23,7 @@ class FeedAdapter : RecyclerView.Adapter<FeedViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
-        holder.bind(tweetList[position])
+        holder.bind(tweetList[position], onUsernameClickedListener)
     }
 
     override fun getItemCount(): Int {
@@ -35,10 +36,15 @@ class FeedAdapter : RecyclerView.Adapter<FeedViewHolder>() {
 }
 
 class FeedViewHolder(val binding: ListTweetBinding) : ViewHolder(binding.root) {
-    fun bind(tweet: Tweet) {
+    fun bind(tweet: Tweet, onUsernameClickedListener: ((Int) -> Unit)?) {
         binding.apply {
             val sdf = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
             tvUserName.text = tweet.user_username + " @" + tweet.user_handle
+            onUsernameClickedListener?.let {
+                tvUserName.setOnClickListener {
+                    onUsernameClickedListener(tweet.user_id)
+                }
+            }
             tvTimestamp.text = sdf.format(tweet.timestamp)
             tvTweetContent.text = tweet.content
         }

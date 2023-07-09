@@ -4,6 +4,7 @@ import android.util.Log
 
 class UserRepository(private val dao: UserDAO) {
     var currentUser : User? = User(0, "", "", "")
+    var selectedUser: User? = null
 
     suspend fun loginUser(userName: String, password: String): User? {
         currentUser = dao.loginUser(userName, password)
@@ -27,5 +28,9 @@ class UserRepository(private val dao: UserDAO) {
 
     suspend fun setCurrentUserById(userId: Int) {
         currentUser = getUserById(userId)
+    }
+
+    suspend fun setSelectedUserById(userId: Int) {
+        selectedUser = getUserById(userId)
     }
 }

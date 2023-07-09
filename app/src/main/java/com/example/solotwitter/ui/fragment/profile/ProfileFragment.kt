@@ -31,6 +31,9 @@ class ProfileFragment : Fragment() {
         initRecyclerView()
         setObservables()
 
+        if (viewModel.selectedUser != null) {
+            binding.tvBtnLogout.visibility = View.GONE
+        }
         return binding.root
     }
 
