@@ -20,4 +20,12 @@ class UserRepository(private val dao: UserDAO) {
         currentUser = dao.getUser(user.userName, user.handle)
         Log.i("MyTag", "@createUser : ${currentUser?.userName} @ ${currentUser?.handle}")
     }
+
+    suspend fun getUserById(userId: Int): User {
+        return dao.getUserById(userId)
+    }
+
+    suspend fun setCurrentUserById(userId: Int) {
+        currentUser = getUserById(userId)
+    }
 }

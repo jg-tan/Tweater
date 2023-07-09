@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.solotwitter.AppSharedPref
 import com.example.solotwitter.Event
 import com.example.solotwitter.db.user.User
 import com.example.solotwitter.db.user.UserRepository
@@ -54,8 +55,10 @@ class HomeFragmentViewModel(private val repository: UserRepository) : ViewModel(
             return@launch
         }
 
-        sendToastMessage("Logged in successfully! Welcome ${repository.currentUser?.userName}")
-
+        repository.currentUser?.let { user ->
+            AppSharedPref.setLoggedInUserId(user.id)
+            sendToastMessage("Logged in successfully! Welcome ${user.userName}")
+        }
 
         withContext(Dispatchers.Main) {
             _eventHandler.value = Event(HomeFragmentEvents.NAVIGATE_TO_FEED)
