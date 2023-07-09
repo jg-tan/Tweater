@@ -3,7 +3,7 @@ package com.example.solotwitter.db.user
 import android.util.Log
 
 class UserRepository(private val dao: UserDAO) {
-    var currentUser : User? = User(0, "", "", "")
+    var currentUser : User? = null
     var selectedUser: User? = null
 
     suspend fun loginUser(userName: String, password: String): User? {

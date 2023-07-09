@@ -10,18 +10,6 @@ class TweetRepository(private val dao: TweetDAO) {
         dao.insertTweet(tweet)
     }
 
-    suspend fun update(tweet: Tweet) {
-        dao.updateTweet(tweet)
-    }
-
-    suspend fun delete(tweet: Tweet) {
-        dao.deleteTweet(tweet)
-    }
-
-    suspend fun clearAll() {
-        dao.deleteAllTweets()
-    }
-
     fun getTweetsFromUser(userId: Int): LiveData<List<Tweet>>? {
         tweets = dao.getAllTweetsFromUser(userId)
         return tweets
