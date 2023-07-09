@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.solotwitter.AppSharedPref
 import com.example.solotwitter.R
 import com.example.solotwitter.databinding.FragmentFeedBinding
 import com.example.solotwitter.db.RepositoryProvider
@@ -30,8 +31,14 @@ class FeedFragment : Fragment() {
 
         initViewModel()
         initRecyclerView()
+        setObservables()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.resetSelectedUser()
     }
 
     private fun initViewModel() {
@@ -41,12 +48,14 @@ class FeedFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this, factory)[FeedFragmentViewModel::class.java]
         binding.viewModel = viewModel
-        viewModel.setUser()
+        viewModel.setUser(AppSharedPref.getLoggedInUserId())
         viewModel.fetchTweets()
     }
 
     private fun initRecyclerView() {
-        feedAdapter = FeedAdapter()
+        feedAdapter = FeedAdapter {
+            onTweetUsernameClicked(it)
+        }
         binding.rvTweetFeed.apply {
             adapter = feedAdapter
             layoutManager = LinearLayoutManager(this@FeedFragment.context)
@@ -71,5 +80,9 @@ class FeedFragment : Fragment() {
         }
     }
 
-
+    private fun onTweetUsernameClicked(userId: Int) {
+        Log.i("MyTag", "@FeedFragment: onTweetUsernameClicked $userId")
+        viewModel.setSelectedUser(userId)
+        findNavController().navigate(R.id.action_feedFragment_to_profileFragment)
+    }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solotwitter.R
 import com.example.solotwitter.databinding.FragmentProfileBinding
@@ -28,7 +29,11 @@ class ProfileFragment : Fragment() {
 
         initViewModel()
         initRecyclerView()
+        setObservables()
 
+        if (viewModel.selectedUser != null) {
+            binding.tvBtnLogout.visibility = View.GONE
+        }
         return binding.root
     }
 
@@ -50,6 +55,16 @@ class ProfileFragment : Fragment() {
             layoutManager = LinearLayoutManager(this@ProfileFragment.context)
         }
         displayTweetList()
+    }
+
+    private fun setObservables() {
+        viewModel.eventHandler.observe(this) {
+            it.getContentIfNotHandled()?.let { event ->
+                when (event) {
+                    ProfileFragmentEvents.NAVIGATE_TO_HOME -> findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+                }
+            }
+        }
     }
 
     private fun displayTweetList() {

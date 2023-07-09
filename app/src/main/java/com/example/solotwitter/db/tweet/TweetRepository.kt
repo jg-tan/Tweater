@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 
 class TweetRepository(private val dao: TweetDAO) {
     var tweets: LiveData<List<Tweet>>? = null
+    var tweetsFromUser: LiveData<List<Tweet>>? = null
 
     suspend fun insert(tweet: Tweet) {
         dao.insertTweet(tweet)

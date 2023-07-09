@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.solotwitter.ui.fragment.profile.ProfileFragmentViewModel" />
@@ -58,6 +57,7 @@
                     android:id="@+id/tv_btn_logout"
                     android:layout_width="80dp"
                     android:layout_height="35dp"
+                    android:onClick="@{()->viewModel.onLogoutClicked()}"
                     android:text="Logout"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"

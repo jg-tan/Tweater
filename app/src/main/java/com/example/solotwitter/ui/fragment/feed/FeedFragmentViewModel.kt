@@ -10,7 +10,9 @@ import com.example.solotwitter.db.tweet.Tweet
 import com.example.solotwitter.db.tweet.TweetRepository
 import com.example.solotwitter.db.user.UserRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 enum class FeedFragmentEvents {
     NAVIGATE_TO_PROFILE
@@ -30,9 +32,15 @@ class FeedFragmentViewModel(
     val eventHandler: LiveData<Event<FeedFragmentEvents>>
         get() = _eventHandler
 
-    fun setUser() {
-        user = userRepository.currentUser
-        currentUsernameHandle.value = user!!.userName + "@" + user!!.handle
+    fun setUser(userId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        user = async {
+            userRepository.setCurrentUserById(userId)
+            return@async userRepository.currentUser
+        }.await()
+
+        withContext(Dispatchers.Main) {
+            currentUsernameHandle.value = user!!.userName + "@" + user!!.handle
+        }
     }
 
     fun fetchTweets() {
@@ -52,5 +60,14 @@ class FeedFragmentViewModel(
 
     fun onUserUsernameClicked() {
         Log.i("MyTag", "@FeedFragmentViewModel : onUserUsernameClicked()")
+        _eventHandler.value = Event(FeedFragmentEvents.NAVIGATE_TO_PROFILE)
+    }
+
+    fun setSelectedUser(userId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        userRepository.setSelectedUserById(userId)
+    }
+
+    fun resetSelectedUser() {
+        userRepository.selectedUser = null
     }
 }
